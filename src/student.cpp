@@ -72,39 +72,52 @@ string display(const Queue& q) {
 // SOAL 1 — enqueue()                                                  35 poin
 // =============================================================================
 bool enqueue(Queue& q, int nomor) {
-    Node* baru = new Node{nomor, nullptr};
-
-    if(isEmpty(q)){ //kondisi ketika antrean kosong
-        q.depan = baru;
-        q.belakang = baru;
-    }else{
-        q.belakang->next = baru;
-        q.belakang = baru;
-    }
-    return true;
+     Node* baru = new Node;
+     baru->data = nomor;
+     baru->next = NULL;
+     
+     if (isEmpty(q)) {
+          q.depan = baru;
+          q.belakang = baru;
+     } else {
+          q.belakang->next = baru;
+          q.belakang = baru;
+     }
+     
+     return true;
 }
 
 // =============================================================================
 // SOAL 2 — dequeue()                                                  40 poin
 // =============================================================================
 bool dequeue(Queue& q, int& nomor) {
-    if (isEmpty(q)) return false;
-
-    Node* hapus = q.depan;
-    nomor = hapus->data;
-    q.depan = q.depan->next;
-    delete hapus;
-    return true;
+     if (isEmpty(q)) {
+          return false;
+     }
+     
+     Node* temp = q.depan;
+     nomor = temp->data;
+     q.depan = q.depan->next;
+     
+     if (q.depan == NULL) {
+          q.belakang = NULL;
+     }
+     
+     delete temp;
+     return true;
 }
 
 // =============================================================================
 // SOAL 3 — clear()                                                    25 poin
 // =============================================================================
 void clear(Queue& q) {
-    while (!isEmpty(q)) {
-        int nomor;
-        dequeue(q, nomor);
-    }
+     while (!isEmpty(q)) {
+          Node* temp = q.depan;
+          q.depan = q.depan->next;
+          delete temp;
+     }
+     
+     q.belakang = NULL;
 }
 
 // =============================================================================
